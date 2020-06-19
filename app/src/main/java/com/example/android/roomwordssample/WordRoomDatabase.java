@@ -94,7 +94,7 @@ public abstract class WordRoomDatabase extends RoomDatabase {
             mDao.insert(word);
             word = new Word("World");
             mDao.insert(word);
-            mDao.updateUsers(word);
+            mDao.update(word);
             mDao.delete(word);
             return null;
         }

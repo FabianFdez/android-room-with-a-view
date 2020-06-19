@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private WordViewModel mWordViewModel;
     private Button editar;
 
+    final WordListAdapter adapter = new WordListAdapter(this);
 
 
     @Override
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final WordListAdapter adapter = new WordListAdapter(this);
+        //final WordListAdapter adapter = new WordListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -81,18 +83,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });
+        editar = findViewById(R.id.button);
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = 0;
+                Intent intent = new Intent(MainActivity.this, NewWordActivity.class);
+                intent.putExtra(EditarClass.Extra_Reply_WORD_ID, adapter.getWord(pos).getKey());
+                intent.putExtra(EditarClass.Extra_Reply, adapter.getWord(pos).getWord());
+
+                startActivityForResult(intent, EDIT_WORD_ACTIVITY_REQUEST_CODE);
+            }
+        });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.recyclerview:
-                // User chose the "Settings" item, show the app settings UI...
+            case R.id.action:
+                RecyclerView.ViewHolder viewHolder = null;
+                int pos = viewHolder.getAdapterPosition();
+                Word myWord = adapter.getPosition(pos);
+                Toast.makeText(MainActivity.this, "Borrando"+myWord.getWord(), Toast.LENGTH_LONG).show();
+
+                mWordViewModel.delete(myWord);
                 return true;
 
-            case R.id.fab:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                return true;
+
 
             default:
                 // If we got here, the user's action was not recognized.

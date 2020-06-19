@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -31,10 +32,11 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     class WordViewHolder extends RecyclerView.ViewHolder {
         private final TextView wordItemView;
-
+        private final Button editar;
         private WordViewHolder(View itemView) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.textView);
+            editar = itemView.findViewById(R.id.edit_word);
         }
     }
 
@@ -66,6 +68,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     public int getItemCount() {
         return mWords.size();
     }
+    public Word getPosition(int pos){return mWords.get(pos);}
+    public Word getWord(int pos){return mWords.get(pos);}
 }
 
 

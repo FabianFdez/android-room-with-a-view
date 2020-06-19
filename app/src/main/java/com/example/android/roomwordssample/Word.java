@@ -35,7 +35,8 @@ import androidx.annotation.NonNull;
 @Entity(tableName = "word_table")
 public class Word {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int key;
     @NonNull
     @ColumnInfo(name = "word")
     private String mWord;
@@ -47,5 +48,12 @@ public class Word {
     @NonNull
     public String getWord() {
         return this.mWord;
+    }
+
+    @NonNull
+    public int getKey(){return key;}
+
+    public void setKey(int key) {
+        this.key = key;
     }
 }
